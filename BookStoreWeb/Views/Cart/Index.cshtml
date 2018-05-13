@@ -1,0 +1,54 @@
+﻿@model BookStoreWeb.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Your cart:";
+}
+
+<h2>This is your cart</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center text-white">Quantity</th>
+                <th class="text-center">Book</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Total price</th>
+                <th class="text-center">Remove item</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cart.Goods)
+            {
+            <tr>
+                <td class="text-center">@item.Quantity</td>
+                <td class="text-center">@item.Book.Name</td>
+                <td class="text-center">@item.Book.Price.ToString("#USD")</td>
+                <td class="text-center">@((item.Quantity * item.Book.Price).ToString("#USD"))</td>
+                <td class="text-center">
+                @using (Html.BeginForm("RemoveItemFromCart", "Cart"))
+                {
+                    @Html.Hidden("BookId", item.Book.Id)
+                    @Html.HiddenFor(x => x.ReturnUri)
+                    <input class="btn btn-sm btn-warning" type="submit" value="Remove">
+                }
+                </td >
+            </tr>
+             }
+        </tbody>
+        <tfoot>
+            <tr class="success">
+                <td></td>
+                <td></td>
+                <td class="text-center">Total:</td>
+                <td class="text-center">@Model.Cart.CalculateTotalPrice().ToString("#USD")</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUri">Continue shopping</a>
+    @Html.ActionLink("Make order", "MakeOrder", null, new {@class = "btn btn-primary" })
+</div>
+

@@ -1,0 +1,16 @@
+﻿@using BookStoreWeb.Models
+@model BooksListViewModel
+
+@{
+    ViewBag.Title = "Books";
+}
+
+@foreach (var book in @Model.Books)
+{
+    @Html.Partial("PartialBooksView", book)
+}
+
+    <div class="btn-group pull-right">
+        @Html.CreatePages(Model.PageInfo, x => Url.Action("Index", new {page = x, category = Model.Category }))
+    </div>
+

@@ -1,0 +1,11 @@
+﻿@model BookStoreDomainModel.Entities.Cart
+
+<div class="navbar-right btn-sm">
+        @Html.ActionLink("Order", "Index", "Cart", new {returnUri = Request.Url.PathAndQuery }, new {@class = "btn btn-primary" })
+</div>
+<div class="navbar-text navbar-right">
+    <b>Your cart:</b>
+    @Model.Goods.Sum(item => item.Quantity) books,
+    @Model.CalculateTotalPrice().ToString("#USD")
+</div>
+
